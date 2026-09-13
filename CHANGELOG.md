@@ -4,7 +4,14 @@ All notable changes to the Duck Viewer extension will be documented in this file
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
-## Unreleased
+## [0.1.3] - 2026-09-13
+
+### Fixed
+- **README badges render again.** The VS Code Marketplace badge was served by a shields.io endpoint that has since been retired and rendered as "retired badge"; it now uses vsmarketplacebadges.dev. A CI/CD status badge for the `main` branch was added alongside the Marketplace and Open VSX version badges.
+
+## [0.0.27] (fork) - 2026-09-03
+
+Published as `hernandor.duck-viewer`, reusing upstream's `0.0.27` version number. Everything below is additional to upstream's `0.0.27` release further down.
 
 ### Changed
 - **Published as a fork named Duck Viewer** (`hernandor.duck-viewer`). The `duckdb` extension name is not available to the fork, so it is renamed; command IDs and settings keep the `duckdb.` prefix, so existing keybindings and configuration continue to work. The upstream extension by Charlie Jonas remains at [ChuckJonas/duckdb-vscode](https://github.com/ChuckJonas/duckdb-vscode) (`chuckjonas.duckdb`); see the README section "About This Fork" for why the fork exists. Repository, homepage, and issue links now point to [HernandoR/duckdb-vscode](https://github.com/HernandoR/duckdb-vscode).
