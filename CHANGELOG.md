@@ -4,7 +4,7 @@ All notable changes to the Duck Viewer extension will be documented in this file
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
-## Unreleased
+## [0.0.28] - 2026-09-13
 
 ### Changed
 - **Published as a fork named Duck Viewer** (`hernandor.duck-viewer`). The `duckdb` extension name is not available to the fork, so it is renamed; command IDs and settings keep the `duckdb.` prefix, so existing keybindings and configuration continue to work. The upstream extension by Charlie Jonas remains at [ChuckJonas/duckdb-vscode](https://github.com/ChuckJonas/duckdb-vscode) (`chuckjonas.duckdb`); see the README section "About This Fork" for why the fork exists. Repository, homepage, and issue links now point to [HernandoR/duckdb-vscode](https://github.com/HernandoR/duckdb-vscode).
@@ -14,6 +14,7 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 - **`STRUCT` columns render as nested sub-columns** with a grouped multi-row header, up to `duckdb.nestedColumnMaxDepth` levels (default `2`; `0` restores flat JSON cells). Sorting, filtering, column stats, distinct values, selection, copy and resize work on nested leaves; nested cells stay read-only.
 
 ### Fixed
+- **README badges render again.** The VS Code Marketplace badge was served by a shields.io endpoint that has since been retired and rendered as "retired badge"; it now uses vsmarketplacebadges.dev. A CI/CD status badge for the `main` branch was added alongside the Marketplace and Open VSX version badges.
 - **Previewing a `.duckdb` file failed with a nonsense catalog error** such as `No files found that match the pattern "home.data.my.duckdb"` or `Catalog "home" does not exist!`. The DuckDB Table Viewer accepts any filename in **Open With…**, and it was parsing the file's path segments as `catalog/schema/table`. It now hands real files to the DuckDB Data Viewer instead of binding a filesystem path as a qualified table name.
 
 ## [0.0.27] - 2026-05-31

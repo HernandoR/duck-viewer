@@ -1,6 +1,7 @@
 # 🦆 Duck Viewer
 
-[![VS Code Marketplace](https://img.shields.io/visual-studio-marketplace/v/hernandor.duck-viewer?label=VS%20Code%20Marketplace)](https://marketplace.visualstudio.com/items?itemName=hernandor.duck-viewer)
+[![CI/CD](https://github.com/HernandoR/duckdb-vscode/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/HernandoR/duckdb-vscode/actions/workflows/ci.yml)
+[![VS Code Marketplace](https://vsmarketplacebadges.dev/version-short/hernandor.duck-viewer.svg?label=VS%20Code%20Marketplace)](https://marketplace.visualstudio.com/items?itemName=hernandor.duck-viewer)
 [![Open VSX](https://img.shields.io/open-vsx/v/hernandor/duck-viewer?label=Open%20VSX)](https://open-vsx.org/extension/hernandor/duck-viewer)
 
 > Duck Viewer is an unofficial DuckDB client for Visual Studio Code. Query CSV, Parquet, JSON, and Excel files directly. Connect to `.duckdb`, S3, Postgres, Google Sheets and more.
