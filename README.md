@@ -58,7 +58,7 @@ Performance Note: When you execute a query, the extension creates a temporary ta
 - **Database files** — `.duckdb`/`.ddb` files open as a table picker: the file is attached (read-only when possible), its tables and views are listed with row/column counts, and the attachment is dropped when the last editor for the file closes.
 - **JSON/JSONL support** — `.json`, `.jsonl`, and `.ndjson` available via **right-click → Open With… → Duck Viewer: Data**
 - **Configurable** — Each file type can be toggled via `duckdb.fileViewer.*` settings
-- **Right-click to query** — Select files in Explorer → "DuckDB: Query File" to open a SQL editor with `SELECT * FROM '{file}'`
+- **Right-click to query** — Select files in Explorer → "Duck Viewer: Query File" to open a SQL editor with `SELECT * FROM '{file}'`
 - **Summarize files** — Quick data profiling with SUMMARIZE
 
 ### Results Table
@@ -355,17 +355,17 @@ Maximum history entries to keep (default: `1000`).
 
 ## Commands
 
-| Command                    | Keybinding                          | Description                            |
-| -------------------------- | ----------------------------------- | -------------------------------------- |
-| DuckDB: Execute Query      | `Cmd+Enter` / `Ctrl+Enter`          | Run all SQL in active editor           |
-| DuckDB: Run Statement      | —                                   | Run a single statement (via CodeLens)  |
-| DuckDB: Run at Cursor      | `Cmd+Shift+Enter` / `Ctrl+Shift+Enter` | Run the statement under the cursor |
-| DuckDB: Select Database    | —                                   | Switch active database                 |
-| DuckDB: Manage Extensions  | —                                   | Install/remove extensions              |
-| DuckDB: Query File         | —                                   | Query a data file (right-click)        |
-| DuckDB: Summarize File     | —                                   | Profile a data file                    |
-| DuckDB: Copy Query         | —                                   | Copy SELECT statement for file         |
-| Go to Source File          | —                                   | Navigate from results to source SQL    |
+| Command                        | Keybinding                          | Description                            |
+| ------------------------------ | ----------------------------------- | -------------------------------------- |
+| Duck Viewer: Execute Query     | `Cmd+Enter` / `Ctrl+Enter`          | Run all SQL in active editor           |
+| Duck Viewer: Run Statement     | —                                   | Run a single statement (via CodeLens)  |
+| Duck Viewer: Run at Cursor     | `Cmd+Shift+Enter` / `Ctrl+Shift+Enter` | Run the statement under the cursor |
+| Duck Viewer: Select Database   | —                                   | Switch active database                 |
+| Duck Viewer: Manage Extensions | —                                   | Install/remove extensions              |
+| Duck Viewer: Query File        | —                                   | Query a data file (right-click)        |
+| Duck Viewer: Summarize File    | —                                   | Profile a data file                    |
+| Duck Viewer: Copy Query        | —                                   | Copy SELECT statement for file         |
+| Go to Source File              | —                                   | Navigate from results to source SQL    |
 
 ---
 

@@ -1,5 +1,8 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#d99e0b">
   <!-- Rubber-duck mark for Duck Viewer. Original artwork; unrelated to the DuckDB logo. -->
+  <!-- Fill is literal, not currentColor: webview tab icons are emitted as background-image,
+       where currentColor has no document to inherit from and resolves to black. The activity
+       bar masks this file and paints the theme foreground, so it ignores the fill either way. -->
   <!-- beak -->
   <path d="M6.0 6.3 2.4 7.3a.95.95 0 0 0 0 1.9l3.6 1.0z" />
   <!-- head, with the eye knocked out via even-odd fill -->

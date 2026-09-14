@@ -966,7 +966,7 @@ function getWebviewHtml(scriptUri: vscode.Uri): string {
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; script-src ${scriptUri.scheme}:;">
-  <title>DuckDB Results</title>
+  <title>Duck Viewer Results</title>
 </head>
 <body>
   <div id="root"></div>
