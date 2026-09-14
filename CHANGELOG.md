@@ -4,6 +4,20 @@ All notable changes to the Duck Viewer extension will be documented in this file
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.1.4] - 2026-09-14
+
+### Changed
+- **Rebranded away from DuckDB's identity** ([#5](https://github.com/HernandoR/duck-viewer/issues/5)). The published listing shipped a copy of the official DuckDB logo and presented itself as "DuckDB" throughout the UI, and the VS Code Marketplace removed `hernandor.duck-viewer` as impersonation. Everything that could read as DuckDB Labs branding is now the fork's own:
+  - The marketplace icon (`resources/icon.png`) is original rubber-duck artwork instead of the DuckDB logo.
+  - The activity-bar and editor-tab icon is a new `resources/duck-viewer-icon.svg`. The traced-logo `resources/duckdb-icon.svg` and `resources/duckdb-marketplace-icon.svg` are deleted — the latter was a verbatim copy of the DuckDB logo and was being packaged into the VSIX.
+  - The activity-bar container, the settings section, and the command palette entries are titled "Duck Viewer" rather than "DuckDB".
+  - The **Open With…** editors are renamed from "DuckDB Table Viewer" / "DuckDB Data Viewer" to "Duck Viewer: Table" / "Duck Viewer: Data".
+  - The marketplace description leads with "Unofficial" and disclaims affiliation; the README carries an explicit not-affiliated-with-DuckDB-Labs notice.
+  - Command IDs, configuration keys, and view IDs are unchanged, so existing keybindings and `settings.json` entries keep working.
+- **Repository renamed** from `HernandoR/duckdb-vscode` to [`HernandoR/duck-viewer`](https://github.com/HernandoR/duck-viewer). Repository, homepage, issue, badge, and screenshot links follow; GitHub redirects the old URLs.
+- The DuckDB spill/temp directory moved from `<tmp>/duckdb-vscode` to `<tmp>/duck-viewer`, and the write-back scratch file suffix from `.duckdb-vscode.tmp` to `.duck-viewer.tmp`. Both are transient locations; nothing persistent moves.
+- The "About This Fork" section of the README now explains the rebrand instead of the outdated claim that the Marketplace would not accept `duckdb` as the fork's extension name.
+
 ## [0.1.3] - 2026-09-13
 
 ### Fixed

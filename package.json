@@ -1,17 +1,17 @@
 {
   "name": "duck-viewer",
   "displayName": "Duck Viewer",
-  "description": "A DuckDB client for VS Code — query CSV, Parquet, JSON, and Excel files directly",
-  "version": "0.1.3",
+  "description": "Unofficial DuckDB client for VS Code — query CSV, Parquet, JSON, and Excel files directly. Not affiliated with DuckDB Labs.",
+  "version": "0.1.4",
   "publisher": "hernandor",
   "icon": "resources/icon.png",
   "repository": {
     "type": "git",
-    "url": "https://github.com/HernandoR/duckdb-vscode.git"
+    "url": "https://github.com/HernandoR/duck-viewer.git"
   },
-  "homepage": "https://github.com/HernandoR/duckdb-vscode#readme",
+  "homepage": "https://github.com/HernandoR/duck-viewer#readme",
   "bugs": {
-    "url": "https://github.com/HernandoR/duckdb-vscode/issues"
+    "url": "https://github.com/HernandoR/duck-viewer/issues"
   },
   "license": "MIT",
   "engines": {
@@ -43,8 +43,8 @@
       "activitybar": [
         {
           "id": "duckdb-explorer",
-          "title": "DuckDB",
-          "icon": "resources/duckdb-icon.svg"
+          "title": "Duck Viewer",
+          "icon": "resources/duck-viewer-icon.svg"
         }
       ]
     },
@@ -68,41 +68,41 @@
     "commands": [
       {
         "command": "duckdb.executeQuery",
-        "title": "DuckDB: Execute Query",
+        "title": "Duck Viewer: Execute Query",
         "icon": "$(play)"
       },
       {
         "command": "duckdb.runStatementAtCursor",
-        "title": "DuckDB: Run Statement at Cursor"
+        "title": "Duck Viewer: Run Statement at Cursor"
       },
       {
         "command": "duckdb.peekResults",
-        "title": "DuckDB: Peek Results"
+        "title": "Duck Viewer: Peek Results"
       },
       {
         "command": "duckdb.runStatement",
-        "title": "DuckDB: Run Statement",
+        "title": "Duck Viewer: Run Statement",
         "icon": "$(play)"
       },
       {
         "command": "duckdb.selectDatabase",
-        "title": "DuckDB: Select Database"
+        "title": "Duck Viewer: Select Database"
       },
       {
         "command": "duckdb.manageExtensions",
-        "title": "DuckDB: Manage Extensions"
+        "title": "Duck Viewer: Manage Extensions"
       },
       {
         "command": "duckdb.queryFile",
-        "title": "DuckDB: Query File"
+        "title": "Duck Viewer: Query File"
       },
       {
         "command": "duckdb.copyQuery",
-        "title": "DuckDB: Copy Query"
+        "title": "Duck Viewer: Copy Query"
       },
       {
         "command": "duckdb.summarizeFile",
-        "title": "DuckDB: Summarize File"
+        "title": "Duck Viewer: Summarize File"
       },
       {
         "command": "duckdb.explorer.refresh",
@@ -184,7 +184,7 @@
       },
       {
         "command": "duckdb.explorer.findTable",
-        "title": "DuckDB: Find Table...",
+        "title": "Duck Viewer: Find Table...",
         "icon": "$(search)"
       },
       {
@@ -197,7 +197,7 @@
       },
       {
         "command": "duckdb.history.search",
-        "title": "DuckDB: Search History...",
+        "title": "Duck Viewer: Search History...",
         "icon": "$(search)"
       },
       {
@@ -638,7 +638,7 @@
       }
     ],
     "configuration": {
-      "title": "DuckDB",
+      "title": "Duck Viewer",
       "properties": {
         "duckdb.databases": {
           "type": "array",
@@ -877,7 +877,7 @@
         "duckdb.fileViewer.csv": {
           "type": "boolean",
           "default": true,
-          "markdownDescription": "Automatically open `.csv` and `.tsv` files with the DuckDB data viewer.\n\nWhen disabled, you can still open individual files with DuckDB via **right-click → Open With… → DuckDB Data Viewer**."
+          "markdownDescription": "Automatically open `.csv` and `.tsv` files with the DuckDB data viewer.\n\nWhen disabled, you can still open individual files with DuckDB via **right-click → Open With… → Duck Viewer: Data**."
         },
         "duckdb.fileViewer.json": {
           "type": "boolean",
@@ -899,7 +899,7 @@
     "customEditors": [
       {
         "viewType": "duckdb.tableViewer",
-        "displayName": "DuckDB Table Viewer",
+        "displayName": "Duck Viewer: Table",
         "selector": [
           {
             "filenamePattern": "*"
@@ -909,7 +909,7 @@
       },
       {
         "viewType": "duckdb.dataFileViewer",
-        "displayName": "DuckDB Data Viewer",
+        "displayName": "Duck Viewer: Data",
         "selector": [
           {
             "filenamePattern": "*.parquet"

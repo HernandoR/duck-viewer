@@ -1,6 +1,6 @@
 # Release Process
 
-This document describes how to release a new version of the DuckDB VS Code extension.
+This document describes how to release a new version of the Duck Viewer extension.
 
 ## Prerequisites
 
@@ -63,7 +63,7 @@ This triggers the CI/CD pipeline which will:
 
 ### 5. Monitor the Release
 
-- **GitHub Actions**: https://github.com/HernandoR/duckdb-vscode/actions
+- **GitHub Actions**: https://github.com/HernandoR/duck-viewer/actions
 - **Marketplace**: https://marketplace.visualstudio.com/items?itemName=hernandor.duck-viewer
 
 The publish typically takes 2-5 minutes after the workflow completes.
@@ -88,7 +88,7 @@ The Personal Access Token (PAT) expires periodically. If publishing fails with a
 
 ### 2. Update the GitHub Secret
 
-1. Go to https://github.com/HernandoR/duckdb-vscode/settings/secrets/actions
+1. Go to https://github.com/HernandoR/duck-viewer/settings/secrets/actions
 2. Click on `VSCE_PAT`
 3. Click **Update**
 4. Paste the new token

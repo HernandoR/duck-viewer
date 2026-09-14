@@ -362,7 +362,7 @@ function createWebviewPanel(
   panel.iconPath = vscode.Uri.joinPath(
     context.extensionUri,
     "resources",
-    "duckdb-icon.svg"
+    "duck-viewer-icon.svg"
   );
 
   return panel;
