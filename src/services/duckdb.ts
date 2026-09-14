@@ -386,7 +386,7 @@ export class DuckDBService {
       tempDir = options.tempDirectory;
       fs.mkdirSync(tempDir, { recursive: true });
     } else {
-      const root = path.join(os.tmpdir(), "duckdb-vscode");
+      const root = path.join(os.tmpdir(), "duck-viewer");
       fs.mkdirSync(root, { recursive: true });
       tempDir = fs.mkdtempSync(path.join(root, `pid-${process.pid}-`));
       this.ownedTempDir = tempDir;
@@ -853,7 +853,7 @@ export class DuckDBService {
         throw new Error(`Unsupported write-back format: ${format}`);
     }
 
-    const tmpPath = `${targetPath}.duckdb-vscode.tmp`;
+    const tmpPath = `${targetPath}.duck-viewer.tmp`;
     const escTmp = tmpPath.replace(/'/g, "''");
 
     // Clean up any leftover tmp from a previous failed write.

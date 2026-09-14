@@ -134,7 +134,7 @@ export function setupOverviewWebview(
   panel.iconPath = vscode.Uri.joinPath(
     context.extensionUri,
     "resources",
-    "duckdb-icon.svg"
+    "duck-viewer-icon.svg"
   );
 
   const scriptUri = panel.webview.asWebviewUri(
@@ -630,7 +630,7 @@ export function setupMultiTableOverviewWebview(
   panel.iconPath = vscode.Uri.joinPath(
     context.extensionUri,
     "resources",
-    "duckdb-icon.svg"
+    "duck-viewer-icon.svg"
   );
 
   const scriptUri = panel.webview.asWebviewUri(
@@ -1033,7 +1033,7 @@ export function getWebviewHtml(scriptUri: vscode.Uri): string {
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; script-src ${scriptUri.scheme}:;">
-  <title>DuckDB Data Viewer</title>
+  <title>Duck Viewer</title>
 </head>
 <body>
   <div id="root"></div>

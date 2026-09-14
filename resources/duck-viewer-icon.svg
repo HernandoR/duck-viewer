@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#d99e0b">
+  <!-- Rubber-duck mark for Duck Viewer. Original artwork; unrelated to the DuckDB logo. -->
+  <!-- Fill is literal, not currentColor: webview tab icons are emitted as background-image,
+       where currentColor has no document to inherit from and resolves to black. The activity
+       bar masks this file and paints the theme foreground, so it ignores the fill either way. -->
+  <!-- beak -->
+  <path d="M6.0 6.3 2.4 7.3a.95.95 0 0 0 0 1.9l3.6 1.0z" />
+  <!-- head, with the eye knocked out via even-odd fill -->
+  <path fill-rule="evenodd"
+    d="M9.4 3.3a4.3 4.3 0 1 1 0 8.6 4.3 4.3 0 0 1 0-8.6zm1.0 1.9a1.15 1.15 0 1 0 0 2.3 1.15 1.15 0 0 0 0-2.3z" />
+  <!-- tail -->
+  <path d="M15.6 11.6 22.2 8.0c.5 1.9.3 3.9-.6 5.8z" />
+  <!-- body -->
+  <ellipse cx="12.6" cy="14.4" rx="6.8" ry="5.2" />
+</svg>

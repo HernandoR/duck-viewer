@@ -1,30 +1,35 @@
 # 🦆 Duck Viewer
 
-[![CI/CD](https://github.com/HernandoR/duckdb-vscode/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/HernandoR/duckdb-vscode/actions/workflows/ci.yml)
+[![CI/CD](https://github.com/HernandoR/duck-viewer/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/HernandoR/duck-viewer/actions/workflows/ci.yml)
 [![VS Code Marketplace](https://vsmarketplacebadges.dev/version-short/hernandor.duck-viewer.svg?label=VS%20Code%20Marketplace)](https://marketplace.visualstudio.com/items?itemName=hernandor.duck-viewer)
 [![Open VSX](https://img.shields.io/open-vsx/v/hernandor/duck-viewer?label=Open%20VSX)](https://open-vsx.org/extension/hernandor/duck-viewer)
 
-> Duck Viewer is an unofficial DuckDB client for Visual Studio Code. Query CSV, Parquet, JSON, and Excel files directly. Connect to `.duckdb`, S3, Postgres, Google Sheets and more.
+> Duck Viewer is an unofficial, community-built client for Visual Studio Code that runs queries through the DuckDB engine. Query CSV, Parquet, JSON, and Excel files directly. Connect to `.duckdb`, S3, Postgres, Google Sheets and more.
 
-![Query Parquet files directly](https://raw.githubusercontent.com/HernandoR/duckdb-vscode/main/resources/query-parquet.gif)
+> [!IMPORTANT]
+> **Duck Viewer is not an official DuckDB product.** It is not published, endorsed, or supported by DuckDB Labs, and it is not affiliated with them in any way. "DuckDB" appears in this documentation only to name the open-source engine the extension embeds. The Duck Viewer name and duck icon are this project's own — they are not DuckDB Labs branding. Please do not file Duck Viewer issues with DuckDB Labs.
 
-![Live Preview](https://raw.githubusercontent.com/HernandoR/duckdb-vscode/main/resources/live-preview-demo.gif)
+![Query Parquet files directly](https://raw.githubusercontent.com/HernandoR/duck-viewer/main/resources/query-parquet.gif)
 
-![Database Explorer](https://raw.githubusercontent.com/HernandoR/duckdb-vscode/main/resources/database-explorer.gif)
+![Live Preview](https://raw.githubusercontent.com/HernandoR/duck-viewer/main/resources/live-preview-demo.gif)
+
+![Database Explorer](https://raw.githubusercontent.com/HernandoR/duck-viewer/main/resources/database-explorer.gif)
 
 
 ## About This Fork
 
 This extension is a fork of [ChuckJonas/duckdb-vscode](https://github.com/ChuckJonas/duckdb-vscode), created and maintained by [Charlie Jonas](https://github.com/ChuckJonas). All credit for the original design and the vast majority of the code belongs to him.
 
-The fork is published as **Duck Viewer** (`hernandor.duck-viewer`). The name differs from upstream because the Marketplace does not accept `duckdb` as a fork's extension name. It exists for one practical reason: I need to install the extension conveniently across several machines, and the changes below have not been merged upstream. If they land upstream, the original extension is the one to use.
+The fork is published as **Duck Viewer** (`hernandor.duck-viewer`). It exists for one practical reason: I need to install the extension conveniently across several machines, and the changes below have not been merged upstream. If they land upstream, the original extension is the one to use.
+
+The fork carries its own name, icon, and in-product labels rather than DuckDB's. An earlier build reused the DuckDB logo and led with the DuckDB name, and the VS Code Marketplace removed it as [impersonation](https://github.com/microsoft/vsmarketplace/blob/main/RemovedPackages.md). That was a fair call: nothing about this project should suggest it comes from DuckDB Labs. The activity-bar container, command palette entries, and **Open With…** editors are all labelled "Duck Viewer", and the marketplace icon is original rubber-duck artwork. Command IDs and settings keep their `duckdb.` prefix so existing keybindings and `settings.json` entries keep working.
 
 Changes carried by this fork:
 
 - `.duckdb` / `.ddb` database files open as a table and view overview in the data viewer.
 - `STRUCT` columns render as nested sub-columns in the results table.
 
-Bug reports for these changes belong in [this repository's issues](https://github.com/HernandoR/duckdb-vscode/issues). Everything else should go to the [upstream project](https://github.com/ChuckJonas/duckdb-vscode/issues).
+Bug reports for these changes belong in [this repository's issues](https://github.com/HernandoR/duck-viewer/issues). Everything else should go to the [upstream project](https://github.com/ChuckJonas/duckdb-vscode/issues).
 
 ## Overview
 
@@ -51,9 +56,9 @@ Performance Note: When you execute a query, the extension creates a temporary ta
 - **Auto-open data files** — `.parquet`, `.csv`/`.tsv`, and `.xlsx` files open directly in the DuckDB data viewer with full pagination, sorting, filtering, and export. No more "binary file" errors for Parquet!
 - **Excel support** — `.xlsx` workbooks with multiple sheets show a sheet picker with column previews; click any sheet to explore it. The DuckDB `excel` extension is auto-installed on first use.
 - **Database files** — `.duckdb`/`.ddb` files open as a table picker: the file is attached (read-only when possible), its tables and views are listed with row/column counts, and the attachment is dropped when the last editor for the file closes.
-- **JSON/JSONL support** — `.json`, `.jsonl`, and `.ndjson` available via **right-click → Open With… → DuckDB Data Viewer**
+- **JSON/JSONL support** — `.json`, `.jsonl`, and `.ndjson` available via **right-click → Open With… → Duck Viewer: Data**
 - **Configurable** — Each file type can be toggled via `duckdb.fileViewer.*` settings
-- **Right-click to query** — Select files in Explorer → "DuckDB: Query File" to open a SQL editor with `SELECT * FROM '{file}'`
+- **Right-click to query** — Select files in Explorer → "Duck Viewer: Query File" to open a SQL editor with `SELECT * FROM '{file}'`
 - **Summarize files** — Quick data profiling with SUMMARIZE
 
 ### Results Table
@@ -281,7 +286,7 @@ Increase this if you work with very large datasets:
 
 #### `duckdb.tempDirectory`
 
-Directory for DuckDB temp/spill files (default: OS temp directory, e.g. `/tmp/duckdb-vscode` on macOS/Linux).
+Directory for DuckDB temp/spill files (default: OS temp directory, e.g. `/tmp/duck-viewer` on macOS/Linux).
 
 Leave empty to use the OS temp directory, which is automatically cleaned up on reboot. Override this if the default location doesn't have enough disk space or isn't writable:
 
@@ -350,17 +355,17 @@ Maximum history entries to keep (default: `1000`).
 
 ## Commands
 
-| Command                    | Keybinding                          | Description                            |
-| -------------------------- | ----------------------------------- | -------------------------------------- |
-| DuckDB: Execute Query      | `Cmd+Enter` / `Ctrl+Enter`          | Run all SQL in active editor           |
-| DuckDB: Run Statement      | —                                   | Run a single statement (via CodeLens)  |
-| DuckDB: Run at Cursor      | `Cmd+Shift+Enter` / `Ctrl+Shift+Enter` | Run the statement under the cursor |
-| DuckDB: Select Database    | —                                   | Switch active database                 |
-| DuckDB: Manage Extensions  | —                                   | Install/remove extensions              |
-| DuckDB: Query File         | —                                   | Query a data file (right-click)        |
-| DuckDB: Summarize File     | —                                   | Profile a data file                    |
-| DuckDB: Copy Query         | —                                   | Copy SELECT statement for file         |
-| Go to Source File          | —                                   | Navigate from results to source SQL    |
+| Command                        | Keybinding                          | Description                            |
+| ------------------------------ | ----------------------------------- | -------------------------------------- |
+| Duck Viewer: Execute Query     | `Cmd+Enter` / `Ctrl+Enter`          | Run all SQL in active editor           |
+| Duck Viewer: Run Statement     | —                                   | Run a single statement (via CodeLens)  |
+| Duck Viewer: Run at Cursor     | `Cmd+Shift+Enter` / `Ctrl+Shift+Enter` | Run the statement under the cursor |
+| Duck Viewer: Select Database   | —                                   | Switch active database                 |
+| Duck Viewer: Manage Extensions | —                                   | Install/remove extensions              |
+| Duck Viewer: Query File        | —                                   | Query a data file (right-click)        |
+| Duck Viewer: Summarize File    | —                                   | Profile a data file                    |
+| Duck Viewer: Copy Query        | —                                   | Copy SELECT statement for file         |
+| Go to Source File              | —                                   | Navigate from results to source SQL    |
 
 ---
 
@@ -377,4 +382,4 @@ MIT. The original work is copyright Charlie Jonas ([ChuckJonas/duckdb-vscode](ht
 
 ---
 
-_Not affiliated with DuckDB Labs. DuckDB is a trademark of DuckDB Labs._
+_Duck Viewer is an independent, unofficial project. It is not affiliated with, endorsed by, or supported by DuckDB Labs. DuckDB is a trademark of DuckDB Labs and is used here only to identify the engine this extension embeds._
