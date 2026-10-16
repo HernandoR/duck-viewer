@@ -136,3 +136,29 @@ jobs:
           for vsix in *.vsix; do
             npx ovsx publish "$vsix" -p ${{ secrets.OVSX_PAT }}
           done
+
+  # Attach the VSIX files to a GitHub Release (only on version tags).
+  # Depends only on `package`, so the release still gets its VSIX files
+  # when a marketplace publish fails.
+  github-release:
+    needs: package
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/v')
+    permissions:
+      contents: write
+    steps:
+      - name: Download all VSIX artifacts
+        uses: actions/download-artifact@v4
+        with:
+          pattern: vsix-*
+          merge-multiple: true
+
+      - name: Create release and upload VSIX files
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: ${{ github.repository }}
+          TAG: ${{ github.ref_name }}
+        run: |
+          gh release view "$TAG" >/dev/null 2>&1 \
+            || gh release create "$TAG" --verify-tag --generate-notes --title "$TAG"
+          gh release upload "$TAG" *.vsix --clobber

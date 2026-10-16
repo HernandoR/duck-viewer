@@ -4,6 +4,12 @@ All notable changes to the Duck Viewer extension will be documented in this file
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.1.5] - 2026-10-16
+
+### Added
+- **VSIX files are attached to a GitHub Release.** Pushing a `v*` tag now also creates a GitHub Release for the tag and uploads the four platform `.vsix` packages to it, so builds can be downloaded and installed manually. The release job only depends on packaging, so it still runs when a marketplace publish fails.
+- `docs/samples/structured_sample.parquet` (with the `structured_sample.sql` that regenerates it): a five-row table mixing flat columns with a two-level STRUCT, a LIST, a LIST of STRUCTs, and a MAP, for checking how each kind renders. `docs/` is excluded from the VSIX.
+
 ## [0.1.4] - 2026-09-14
 
 ### Changed
