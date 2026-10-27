@@ -9,49 +9,79 @@ on:
   pull_request:
     branches:
       - main
-  workflow_dispatch: 
+
+  # A tag created from the GitHub UI (the Tags page, or publishing a release)
+  # does not always produce a `push` event, so listen for the `create` and
+  # `release` events as well. `just publish` is idempotent, so overlapping runs
+  # are safe.
+  create:
+  release:
+    types: [published]
+
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version to publish, e.g. v0.1.8. Leave empty to only build and test.'
+        required: false
+        type: string
+
+# `just` derives the release version from this value. A tag name ("v0.1.8")
+# is used as-is; a branch name falls back to the tag on HEAD, then to the
+# development version in package.json.template (0.0.0).
+env:
+  VERSION: ${{ github.event.inputs.version || github.ref_name }}
+
+# A tag can arrive through more than one of the events above. Serialize runs
+# for the same ref so the publish steps never race; each run is idempotent.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
 
 jobs:
   build:
+    # `create` also fires for new branches; only tags can be release candidates.
+    if: github.event_name != 'create' || github.event.ref_type == 'tag'
     strategy:
       matrix:
         os: [macos-latest, ubuntu-latest, windows-latest]
     runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Install Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
         with:
           node-version: 22.x
           cache: 'npm'
 
+      - name: Install just
+        uses: extractions/setup-just@v4
+        with:
+          just-version: 1.59.0
+
+      # package.json is generated, so it must exist before `npm ci`.
+      - name: Generate package.json
+        run: just generate "$VERSION"
+
       - name: Install dependencies
         run: npm ci
 
-      - name: Lint
-        run: npm run lint
-
-      - name: Compile
-        run: npm run compile
-
-      # Run unit tests (autocomplete, SQL parsing, etc.)
-      - name: Run unit tests
-        run: npm run test:unit
+      - name: Lint, compile, and unit test
+        run: just check
 
       # Run VS Code integration tests with xvfb on Linux
       - name: Run VS Code tests (Linux)
-        run: xvfb-run -a npm test
+        run: xvfb-run -a just integration-test
         if: runner.os == 'Linux'
 
       - name: Run VS Code tests (non-Linux)
-        run: npm test
+        run: just integration-test
         if: runner.os != 'Linux'
 
-  # Package platform-specific extensions
+  # Package platform-specific extensions.
   # Each target must run on a runner that matches its architecture
-  # so npm installs the correct native bindings
+  # so npm installs the correct native bindings.
   package:
     needs: build
     strategy:
@@ -72,93 +102,62 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Install Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
         with:
           node-version: 22.x
           cache: 'npm'
 
-      - name: Install dependencies
-        run: npm ci
+      - name: Install just
+        uses: extractions/setup-just@v4
+        with:
+          just-version: 1.59.0
 
       - name: Package extension for ${{ matrix.target }}
-        run: npx @vscode/vsce package --target ${{ matrix.target }}
+        run: just package "$VERSION" "${{ matrix.target }}"
 
       - name: Upload VSIX artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: vsix-${{ matrix.target }}
           path: '*.vsix'
 
-  # Publish to VS Code Marketplace (only on version tags)
-  publish-vscode:
+  # Publish every VSIX to the VS Code Marketplace, Open VSX, and a GitHub
+  # Release. All of the logic lives in `just publish`; the steps here only
+  # supply the artifacts, secrets, and permissions.
+  publish:
     needs: package
     runs-on: ubuntu-latest
-    if: startsWith(github.ref, 'refs/tags/v')
-    steps:
-      - name: Download all VSIX artifacts
-        uses: actions/download-artifact@v4
-        with:
-          pattern: vsix-*
-          merge-multiple: true
-
-      - name: Install Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 22.x
-
-      - name: Publish to VS Code Marketplace
-        run: npx @vscode/vsce publish --packagePath *.vsix
-        env:
-          VSCE_PAT: ${{ secrets.VSCE_PAT }}
-
-  # Publish to Open VSX Registry (only on version tags)
-  publish-openvsx:
-    needs: package
-    runs-on: ubuntu-latest
-    if: startsWith(github.ref, 'refs/tags/v')
-    steps:
-      - name: Download all VSIX artifacts
-        uses: actions/download-artifact@v4
-        with:
-          pattern: vsix-*
-          merge-multiple: true
-
-      - name: Install Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 22.x
-
-      - name: Publish to Open VSX Registry
-        run: |
-          for vsix in *.vsix; do
-            npx ovsx publish "$vsix" -p ${{ secrets.OVSX_PAT }}
-          done
-
-  # Attach the VSIX files to a GitHub Release (only on version tags).
-  # Depends only on `package`, so the release still gets its VSIX files
-  # when a marketplace publish fails.
-  github-release:
-    needs: package
-    runs-on: ubuntu-latest
-    if: startsWith(github.ref, 'refs/tags/v')
+    if: startsWith(github.ref, 'refs/tags/v') || (github.event_name == 'workflow_dispatch' && github.event.inputs.version != '')
     permissions:
       contents: write
+      actions: read
     steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Install Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: 22.x
+          cache: 'npm'
+
+      - name: Install just
+        uses: extractions/setup-just@v4
+        with:
+          just-version: 1.59.0
+
       - name: Download all VSIX artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           pattern: vsix-*
           merge-multiple: true
 
-      - name: Create release and upload VSIX files
+      - name: Publish
+        run: just publish "$VERSION"
         env:
+          VSCE_PAT: ${{ secrets.VSCE_PAT }}
+          OVSX_PAT: ${{ secrets.OVSX_PAT }}
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GH_REPO: ${{ github.repository }}
-          TAG: ${{ github.ref_name }}
-        run: |
-          gh release view "$TAG" >/dev/null 2>&1 \
-            || gh release create "$TAG" --verify-tag --generate-notes --title "$TAG"
-          gh release upload "$TAG" *.vsix --clobber

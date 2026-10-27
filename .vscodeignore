@@ -7,6 +7,8 @@ transcript/**
 scripts/**
 .gitignore
 .yarnrc
+justfile
+package.json.template
 vsc-extension-quickstart.md
 **/tsconfig.json
 **/eslint.config.mjs
@@ -18,6 +20,12 @@ clean-markdown.js
 test_histogram.csv
 TODO.md
 Bug Fixes.md
+RELEASE.md
+
+# Local agent/tooling state (git-ignored; can be huge or machine-specific)
+.claude/**
+.cursor/**
+.delta/**
 
 # Exclude GIFs from bundle (Marketplace fetches from GitHub repo)
 resources/*.gif

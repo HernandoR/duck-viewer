@@ -4,5 +4,8 @@ node_modules
 .vscode-test/
 *.vsix
 
+# Generated from package.json.template by scripts/generate-package.mjs
+/package.json
+
 /.*/
 !.github

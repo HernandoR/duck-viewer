@@ -4,6 +4,15 @@ All notable changes to the Duck Viewer extension will be documented in this file
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [Unreleased]
+
+### Changed
+- **Releases are driven by the tag, not by a committed version.** `package.json` is now generated from `package.json.template` by `scripts/generate-package.mjs`, with the version taken from the release tag (`v0.1.8` → `0.1.8`) before packaging. `package.json` is gitignored; edit the template when changing dependencies, scripts, or metadata. This removes the mismatch behind v0.1.6, whose tag pointed at a `package.json` that still said 0.1.5.
+- **A tag created in the GitHub UI now publishes.** The workflow listens for `create` and `release` (`published`) events in addition to `push`, because a tag made from the Tags page or from a published release does not always emit a `push` event. A `workflow_dispatch` input (`version`) re-runs a release without moving the tag.
+- **Build, package, and publish logic moved to the [`justfile`](justfile)**, so it can run locally as `just check`, `just package [version] [target]`, and `just publish v0.1.8`; the CI workflow only calls these recipes. Publishing is idempotent (`--skip-duplicate`), so re-runs and overlapping tag events are harmless, and a marketplace failure no longer prevents the GitHub Release.
+- CI action dependencies updated: `actions/checkout@v7`, `actions/setup-node@v7`, `actions/upload-artifact@v7`, `actions/download-artifact@v8`, and `just` 1.59.0.
+- The VSIX no longer includes local tooling state (`.claude/`, `.cursor/`, `.delta/`) or the maintainer `RELEASE.md`.
+
 ## [0.1.5] - 2026-10-16
 
 ### Added
