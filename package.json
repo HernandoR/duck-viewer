@@ -2,7 +2,7 @@
   "name": "duck-viewer",
   "displayName": "Duck Viewer",
   "description": "Unofficial DuckDB client for VS Code — query CSV, Parquet, JSON, and Excel files directly. Not affiliated with DuckDB Labs.",
-  "version": "0.1.5",
+  "version": "0.1.7",
   "publisher": "hernandor",
   "icon": "resources/icon.png",
   "repository": {
