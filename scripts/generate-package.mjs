@@ -50,6 +50,25 @@ function tagOnHead() {
   }
 }
 
+/**
+ * Whether `value` looks like someone *tried* to pass a version, so a typo
+ * (`v0.1.8x`) fails loudly instead of silently falling back to `0.0.0`.
+ *
+ * Refs can start with a digit too — GitHub passes `8/merge` as `VERSION` for
+ * pull request runs, and branches like `3-fix-readme-badge` are common — so a
+ * ref (a path without a dot, or anything containing a slash) is not an
+ * attempt and falls through to the tag/template like any other ref.
+ */
+function isVersionAttempt(value) {
+  const candidate = String(value)
+    .trim()
+    .replace(/^refs\/tags\//, "")
+    .replace(/^v/, "");
+  if (!/^\d/.test(candidate)) return false;
+  if (candidate.includes("/")) return false;
+  return candidate.includes(".");
+}
+
 function main() {
   const requested = process.argv[2] ?? process.env.VERSION ?? "";
   const template = JSON.parse(readFileSync(TEMPLATE, "utf8"));
@@ -57,7 +76,7 @@ function main() {
   let version = toVersion(requested);
   let source = "argument";
 
-  if (!version && /^v?\d/.test(requested.trim())) {
+  if (!version && isVersionAttempt(requested)) {
     throw new Error(
       `"${requested}" is not a valid version (expected e.g. v0.1.8 or 0.1.8)`
     );
