@@ -61,8 +61,11 @@ jobs:
           just-version: 1.59.0
 
       # package.json is generated, so it must exist before `npm ci`.
+      # The version is interpolated by the runner, not read from a shell
+      # variable: `run:` uses PowerShell on Windows, where the bash-style
+      # `$VERSION` is empty and the package silently fell back to 0.0.0.
       - name: Generate package.json
-        run: just generate "$VERSION"
+        run: just generate "${{ env.VERSION }}"
 
       - name: Install dependencies
         run: npm ci
@@ -116,7 +119,7 @@ jobs:
           just-version: 1.59.0
 
       - name: Package extension for ${{ matrix.target }}
-        run: just package "$VERSION" "${{ matrix.target }}"
+        run: just package "${{ env.VERSION }}" "${{ matrix.target }}"
 
       - name: Upload VSIX artifact
         uses: actions/upload-artifact@v7
@@ -149,6 +152,20 @@ jobs:
         with:
           just-version: 1.59.0
 
+      # `workflow_dispatch` retries a release for a version that already has a
+      # tag. Check that up front: `just publish` creates the GitHub Release with
+      # `--verify-tag` only after both marketplaces were published, so a missing
+      # tag would otherwise leave the extension published with no release.
+      - name: Verify the release tag exists
+        if: github.event_name == 'workflow_dispatch'
+        run: |
+          version="${{ env.VERSION }}"
+          tag="v${version#v}"
+          if ! git ls-remote --exit-code --tags origin "refs/tags/$tag" >/dev/null 2>&1; then
+            echo "::error::tag $tag does not exist on origin. Create and push it (git tag $tag && git push origin $tag) and let that run publish, or dispatch again once the tag exists." >&2
+            exit 1
+          fi
+
       - name: Download all VSIX artifacts
         uses: actions/download-artifact@v8
         with:
@@ -156,7 +173,7 @@ jobs:
           merge-multiple: true
 
       - name: Publish
-        run: just publish "$VERSION"
+        run: just publish "${{ env.VERSION }}"
         env:
           VSCE_PAT: ${{ secrets.VSCE_PAT }}
           OVSX_PAT: ${{ secrets.OVSX_PAT }}
